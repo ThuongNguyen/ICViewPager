@@ -202,9 +202,26 @@
 
 - (void)layoutSubviews {
     
+//    CGFloat topLayoutGuide = 0.0;
+//    if (IOS_VERSION_7) {
+//        topLayoutGuide = 20.0;
+//        if (self.navigationController && !self.navigationController.navigationBarHidden) {
+//            topLayoutGuide += self.navigationController.navigationBar.frame.size.height;
+//        }
+//    }
+    
     CGFloat topLayoutGuide = 0.0;
+    CGFloat bottomLayoutGuide = 0.0;
     if (IOS_VERSION_7) {
-        topLayoutGuide = 20.0;
+        if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone && ( (((int)[[UIScreen mainScreen] nativeBounds].size.height) >= 1792) || (((int)[[UIScreen mainScreen] nativeBounds].size.height) == 2688) || (((int)[[UIScreen mainScreen] nativeBounds].size.height) == 2436))) {
+            topLayoutGuide = 44.0f;
+            if (@available(iOS 11.0, *)) {
+                UIWindow *window = UIApplication.sharedApplication.keyWindow;
+                bottomLayoutGuide = window.safeAreaInsets.bottom;
+            }
+        } else {
+            topLayoutGuide = 20.0f;
+        }
         if (self.navigationController && !self.navigationController.navigationBarHidden) {
             topLayoutGuide += self.navigationController.navigationBar.frame.size.height;
         }
